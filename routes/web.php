@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemsController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/post', [App\Http\Controllers\PostController::class, 'create'])->name('post.create');
 Route::post('/post', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+
+Route::resource('items', ItemsController::class); 

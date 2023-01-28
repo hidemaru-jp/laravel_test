@@ -10,4 +10,14 @@ class PostController extends Controller
     {
         return view('post/create');
     }
+
+    public function store(Request $request)
+    {
+        $post = new Post;
+        $post->name = $request->name;
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->save();
+        return redirect()->route('post.create');
+    }
 }
