@@ -12,13 +12,20 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // データベース内のすべてのItemを取得し、item変数に代入
-        $items = Item::all();
-        // 'items'フォルダ内の'index'viewファイルを返す。
-        // その際にview内で使用する変数を代入します。
-        return view('items/index', ['items' => $items]);
+        $keyword = $request->input('keyword');
+
+        $query = Item::query();
+
+        if(!empty($keyword)) {
+            $query->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('description', 'LIKE', "%{$keyword}%");
+        }
+
+        $items = $query->get();
+
+        return view('items.index', compact('items', 'keyword'));
     }
 
     /**
