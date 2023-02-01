@@ -10,7 +10,7 @@
 
 		{{ csrf_field() }}
 
-    <input type="file" id="file" name="file[]" class="form-control" multiple>
+    <input type="file" id="file" name="file" class="form-control">
 
 	<button type="submit">アップロード</button>
 

@@ -13,8 +13,7 @@ class UploadController extends Controller
 
     public function store(Request $request){
         $file_name = $request->file('file')->getClientOriginalName();
-        dd($request->file('file'));
-        $request->file('file')->storeAs('','upload_file.pdf');
+        $request->file('file')->storeAs('',$file_name);
 
     }
 }
