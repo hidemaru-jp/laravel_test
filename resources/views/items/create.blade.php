@@ -19,6 +19,10 @@
           <input name="price">
         </div>
         <div class="input-form">
+          <label for="quantity">Quantity</label>
+          <input name="quantity">
+        </div>
+        <div class="input-form">
           <input type="submit" value="Submit">
         </div>
       </form>

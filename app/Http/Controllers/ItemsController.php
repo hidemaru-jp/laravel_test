@@ -52,6 +52,7 @@ class ItemsController extends Controller
         $item->name = $request->name;
         $item->description = $request->description;
         $item->price = $request->price;
+        $item->quantity = $request->quantity;
         // データベースに保存
         $item->save();
         // indexページへ遷移
