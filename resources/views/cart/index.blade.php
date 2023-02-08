@@ -15,7 +15,12 @@
                         <td align="right">{{ $cart->item->name }}</td>
                         <td align="right">{{ $cart->quantity }}</td>
                         <td align="right">{{ $cart->subtotal() }}</td>
-                        <td>
+                        <td><form action="/cart/{{$cart->id}}" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="_method" value="delete">
+                                <input type="submit" name="" value="Delete">
+                                </form>
+                        </td>
                 @endforeach
                 <td style="background-color:#f5f5f5">
                         <td>合計</td>

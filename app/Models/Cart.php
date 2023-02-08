@@ -42,5 +42,10 @@ class Cart extends Model
         $result = $this->item->price * $this->quantity;
         return $result;
     }
+
+    public function store() {
+        $result = $this->item->price * $this->quantity;
+        return $result;
+    }
     
 }

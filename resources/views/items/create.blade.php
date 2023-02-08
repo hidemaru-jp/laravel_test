@@ -3,7 +3,8 @@
 @section('content')
   <div class="create-items">
     <div class="form">
-      <form action="/items" method="POST">
+      <form action="/items" method="POST" enctype="multipart/form-data">
+        
         @csrf // 送信されるデータを保護する
         
         <div class="input-form">
@@ -21,6 +22,10 @@
         <div class="input-form">
           <label for="quantity">Quantity</label>
           <input name="quantity">
+        </div>
+        <div>
+          <label for="image">画像登録</label>
+          <input type="file" class="form-control-file" name='image' id="image">
         </div>
         <div class="input-form">
           <input type="submit" value="Submit">

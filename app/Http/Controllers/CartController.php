@@ -32,13 +32,30 @@ class CartController extends Controller
         $result = floor($this->subtotals($carts) * 0.1);
         return $result;
     }
-    public function add(Request $request) {
-        $item_id = $request->input('item_id');
-        if ($this->cart->insert($item_id, 1)) {
-            return redirect(route('cart.index'))->with('true_message', '商品をカートに入れました。');
-        } else {
-            return redirect(route('cart.index'))->with('false_message', '在庫が足りません。');
+    public function store(Request $request) {
+        $cart = Cart::where('user_id',Auth::id())->where('item_id',$request->item_id)->first();
+        
+        if ($cart){
+            $new_quantity = 5 + $request->quantity;
+            $cart->quantity = (int)$new_quantity;
+            $cart->save();
+            return redirect(route('cart.index'));
+        }else{
+            $cart = new Cart;
+            $cart->item_id = $request->item_id;
+            $cart->user_id = Auth::id();
+            $cart->quantity = $request->quantity;
+            $cart->save();
+            return redirect(route('cart.index'));
         }
+
+        
+    }
+    public function destroy($id)
+    {
+        $cart = Cart::find($id);
+        $cart->delete();
+        return redirect('/cart');
     }
 
 }

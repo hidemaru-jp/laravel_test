@@ -19,11 +19,12 @@
     </tr>
     @foreach($items as $item)
       <tr>
+        <td><img src="{{ asset('/storage/images/'.$item['image']) }}" class='w-100 mb-3'/></td>
         <td>{{$item->id}}</td>
         <td>{{$item->name}}</td>
         <td>{{$item->description}}</td>
         <td>{{$item->price}}</td>
-        <td><a href="/items/{{$item->id}}">Details</a></td> // showページへのリンク
+        <td><a href="/items/{{$item->id}}">Details</a></td>
       </tr>
     @endforeach
   </table>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('price');
             $table->integer('quantity');
+            $table->string('image');
             $table->timestamps();
             $table->softDeletes();
         });

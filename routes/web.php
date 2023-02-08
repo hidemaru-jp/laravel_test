@@ -27,5 +27,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('items', ItemsController::class); 
 
 Route::resource('upload',UploadController::class);
-
+// Route::post('cart/add',[CartController::class,'add']); <- 別で追加する書き方
 Route::resource('cart',CartController::class);
+
+
+

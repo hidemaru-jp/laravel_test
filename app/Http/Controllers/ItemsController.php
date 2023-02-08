@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ItemsController extends Controller
 {
@@ -46,17 +47,44 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-        // 新しい Item を作成
-        $item = new Item;
-        // フォームから送られてきたデータをそれぞれ代入
-        $item->name = $request->name;
-        $item->description = $request->description;
-        $item->price = $request->price;
-        $item->quantity = $request->quantity;
-        // データベースに保存
-        $item->save();
-        // indexページへ遷移
-        return redirect('/items');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'max:100',
+            'price' => 'integer | required',
+            'quantity' => 'required',
+        ]);
+            
+            // 記述方法：Validator::make('値の配列', '検証ルールの配列');
+            
+        if ($validator->fails()) {
+            return redirect('/errorpage')
+            ->withErrors($validator)
+            ->withInput();
+        } else {
+            $item = new Item;
+            // フォームから送られてきたデータをそれぞれ代入
+            $item->name = $request->name;
+            $item->description = $request->description;
+            $item->price = $request->price;
+            $item->quantity = $request->quantity;
+            $item->image = $request->image;
+
+            if(request('image')) {
+                $name = request()->file('image')->getClientOriginalName();
+                request()->file('image')->storeAs('public/images',$name);
+                $item->image = $name;
+            }
+            // データベースに保存
+            $item->save();
+            // indexの変数用
+            $keyword = $request->input('keyword');
+            $query = Item::query();
+            $items = $query->get();
+            // indexに遷移
+            return view('items.index', ['msg' => 'OK'],compact('keyword','items'));
+        }
+        
+        // 記述方法：if($validator->fails()) {失敗時の処理} else {成功時の処理}
     }
 
     /**
@@ -111,5 +139,38 @@ class ItemsController extends Controller
         $item = Item::find($id);
         $item->delete();
         return redirect('/items');
+    }
+
+    public function postValidates(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'max:100',
+            'price' => 'integer | required',
+            'quantity' => 'required',
+        ]);
+            
+            // 記述方法：Validator::make('値の配列', '検証ルールの配列');
+            
+        if ($validator->fails()) {
+            return redirect('/errorpage')
+            ->withErrors($validator)
+            ->withInput();
+        } else {
+            $item = new Item;
+            // フォームから送られてきたデータをそれぞれ代入
+            $item->name = $request->name;
+            $item->description = $request->description;
+            $item->price = $request->price;
+            $item->quantity = $request->quantity;
+            // データベースに保存
+            $item->save();
+            $keyword = $request->input('keyword');
+            $query = Item::query();
+            $items = $query->get();
+            return view('items.index', ['msg' => 'OK'],compact('keyword','items'));
+        }
+        
+        // 記述方法：if($validator->fails()) {失敗時の処理} else {成功時の処理}
     }
 }

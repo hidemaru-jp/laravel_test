@@ -24,4 +24,13 @@
   </form>
   
   <a href="/items">Back to index</a>
+
+  <form action="/cart" method="POST" class="item-form" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" name="item_id" value={{$item->id}}>
+    <input type="hidden" name="name" value="{{$item->name}}">
+    <input type="hidden" name="price" value={{$item->price}}>
+    <input type="text" name="quantity" value="1">
+    <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
+  </form>
 @endsection
