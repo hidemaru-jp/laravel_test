@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemsController; 
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\MailSendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('items', ItemsController::class); 
 
-Route::resource('upload',UploadController::class);
-// Route::post('cart/add',[CartController::class,'add']); <- 別で追加する書き方
+Route::get('cart/complete',[CartController::class,'complete']);
 Route::resource('cart',CartController::class);
 
-
+Route::get('/mail', [CartController::class, 'send']);
 

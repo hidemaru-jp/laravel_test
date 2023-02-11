@@ -33,6 +33,9 @@
         <h1>カートに商品はありません</h1>
 @endif
 <br>
+<form action="/mail" method="get" class="item-form" enctype="multipart/form-data">
+        <button type="submit" class="btn-sm btn-blue">購入する</button>
+</form>
 <h2><a href="{{  route('items.index') }}">商品一覧へ戻る</a></h2>
 </body>
 @endsection

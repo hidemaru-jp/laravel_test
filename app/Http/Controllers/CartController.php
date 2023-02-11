@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifyCompleted;
 class CartController extends Controller
 {
     public function __construct(Cart $cart) {
@@ -55,5 +57,20 @@ class CartController extends Controller
         $cart->delete();
         return redirect('/cart');
     }
+
+    public function complete() {
+        return view('cart.complete');
+    }
+
+    
+    public function send(){
+    $carts = Cart::where('user_id',Auth::id())->get();
+    $subtotals = $this->subtotals($carts);
+    $totals = $this->totals($carts);
+    $user = Auth::id();
+    Mail::send(new NotifyCompleted($carts,$subtotals,$totals,$user));
+    return redirect('/cart/complete');
+    }
+
 
 }
