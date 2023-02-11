@@ -57,7 +57,7 @@ class ItemsController extends Controller
             // 記述方法：Validator::make('値の配列', '検証ルールの配列');
             
         if ($validator->fails()) {
-            return redirect('/errorpage')
+            return redirect('/items/create')
             ->withErrors($validator)
             ->withInput();
         } else {

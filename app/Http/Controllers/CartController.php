@@ -36,18 +36,16 @@ class CartController extends Controller
         $cart = Cart::where('user_id',Auth::id())->where('item_id',$request->item_id)->first();
         
         if ($cart){
-            $new_quantity = 5 + $request->quantity;
-            $cart->quantity = (int)$new_quantity;
+            $cart->quantity += $request->quantity;
             $cart->save();
-            return redirect(route('cart.index'));
         }else{
             $cart = new Cart;
             $cart->item_id = $request->item_id;
             $cart->user_id = Auth::id();
             $cart->quantity = $request->quantity;
             $cart->save();
-            return redirect(route('cart.index'));
         }
+        return redirect(route('cart.index'));
 
         
     }
