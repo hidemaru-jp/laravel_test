@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -62,14 +63,23 @@ class CartController extends Controller
         return view('cart.complete');
     }
 
+    public function confirm() {
+        $auth_id = Auth::id();
+        $carts = Cart::where('user_id', $auth_id)->get();
+        $subtotals = $this->subtotals($carts);
+        $totals = $this->totals($carts);
+        return view('cart.confirm', compact('carts', 'totals', 'subtotals'));
+    }
+
     
     public function send(){
-    $carts = Cart::where('user_id',Auth::id())->get();
-    $subtotals = $this->subtotals($carts);
-    $totals = $this->totals($carts);
-    $user = Auth::id();
-    Mail::send(new NotifyCompleted($carts,$subtotals,$totals,$user));
-    return redirect('/cart/complete');
+        $carts = Cart::where('user_id',Auth::id())->get();
+        $subtotals = $this->subtotals($carts);
+        $totals = $this->totals($carts);
+        $user = User::where('id',Auth::id())->first();
+        Mail::send(new NotifyCompleted($carts,$subtotals,$totals,$user));
+        Cart::where('user_id', Auth::id())->delete();
+        return redirect('/cart/complete');
     }
 
 

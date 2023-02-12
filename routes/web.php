@@ -28,6 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('items', ItemsController::class); 
 
 Route::get('cart/complete',[CartController::class,'complete']);
+Route::get('cart/confirm',[CartController::class,'confirm']);
 Route::resource('cart',CartController::class);
 
 Route::get('/mail', [CartController::class, 'send']);

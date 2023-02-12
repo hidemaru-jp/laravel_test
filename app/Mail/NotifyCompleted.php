@@ -21,6 +21,7 @@ class NotifyCompleted extends Mailable
         public $carts;
         public $subtotals;
         public $totals;
+        public $user;
         
     public function __construct($carts,$subtotals,$totals,$user)
     {
@@ -71,7 +72,7 @@ class NotifyCompleted extends Mailable
         return $this
                 ->subject('テストメールです。')
                 ->view('emails/test.blade.php')
-                ->to('XXXXX@XXXXX.jp','')
+                ->to($this->user['email'],$this->user['name'])
                 ->from("xxx@xxx");
     }
 }
