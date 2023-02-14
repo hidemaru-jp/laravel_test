@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotifyCompleted;
+use Stripe\Stripe;
+use Stripe\Customer;
+use Stripe\Charge;
 class CartController extends Controller
 {
     public function __construct(Cart $cart) {
@@ -80,6 +83,35 @@ class CartController extends Controller
         Mail::send(new NotifyCompleted($carts,$subtotals,$totals,$user));
         Cart::where('user_id', Auth::id())->delete();
         return redirect('/cart/complete');
+    }
+
+    public function payment(Request $request)
+    {
+        try
+        {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $customer = Customer::create(array(
+                'email' => $request->stripeEmail,
+                'source' => $request->stripeToken
+            ));
+
+            $carts = Cart::where('user_id',Auth::id())->get();
+            $subtotals = $this->subtotals($carts);
+            $totals = $this->totals($carts);
+
+            $charge = Charge::create(array(
+                'customer' => $customer->id,
+                'amount' => $totals,
+                'currency' => 'jpy'
+            ));
+
+            return redirect('/mail');
+        }
+        catch(Exception $e)
+        {
+            return $e->getMessage();
+        }
     }
 
 

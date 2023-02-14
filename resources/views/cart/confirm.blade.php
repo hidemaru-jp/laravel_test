@@ -25,6 +25,20 @@
         <form action="/mail" method="get" class="item-form" enctype="multipart/form-data">
         <button type="submit" class="btn-sm btn-blue">購入する</button>
         </form>
+        <form action="{{ asset('payment') }}" method="POST" class="text-center mt-5">
+        {{ csrf_field() }}
+        <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="{{ env('STRIPE_KEY') }}"
+            data-amount="{{$totals}}"
+            data-name="Stripe Demo"
+            data-label="決済をする"
+            data-description="これはStripeのデモです。"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto"
+            data-currency="JPY">
+        </script>
+    </form>
 @endif
 <br>
 

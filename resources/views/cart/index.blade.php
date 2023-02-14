@@ -32,6 +32,7 @@
         <form action="/cart/confirm" method="get" class="item-form" enctype="multipart/form-data">
         <button type="submit" class="btn-sm btn-blue">購入確認画面へ進む</button>
         </form>
+        
 @else
         <h1>カートに商品はありません</h1>
 @endif
