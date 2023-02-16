@@ -52,7 +52,6 @@ class CartController extends Controller
             $cart->save();
         }
         return redirect(route('cart.index'));
-
         
     }
     public function destroy($id)
@@ -71,7 +70,8 @@ class CartController extends Controller
         $carts = Cart::where('user_id', $auth_id)->get();
         $subtotals = $this->subtotals($carts);
         $totals = $this->totals($carts);
-        return view('cart.confirm', compact('carts', 'totals', 'subtotals'));
+        $key = config('app.stripe_api');
+        return view('cart.confirm', compact('carts', 'totals', 'subtotals','key'));
     }
 
     
@@ -89,7 +89,7 @@ class CartController extends Controller
     {
         try
         {
-            Stripe::setApiKey(env('STRIPE_SECRET'));
+            Stripe::setApiKey(config('app.stripe_secret'));
 
             $customer = Customer::create(array(
                 'email' => $request->stripeEmail,

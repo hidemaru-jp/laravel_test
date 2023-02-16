@@ -211,5 +211,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+    
+    'stripe_key' => env('STRIPE_KEY'),
+    'stripe_secret' => env('STRIPE_SECRET'),
 
 ];
